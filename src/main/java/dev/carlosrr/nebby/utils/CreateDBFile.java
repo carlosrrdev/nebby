@@ -102,6 +102,9 @@ public class CreateDBFile {
                     createTableSQL.append(", ").append(column.trim()).append(" TEXT");
                 }
             }
+        } else {
+            // If no custom columns, add filename column by default
+            createTableSQL.append(", filename TEXT");
         }
 
         // Add path column (always present)
@@ -164,11 +167,17 @@ public class CreateDBFile {
             validPlaceholders.append("NULL, ");
 
             // Add dynamic columns if provided
-            for (String column : columnNames) {
-                if (!column.trim().isEmpty()) {
-                    validInsertSQL.append(column.trim()).append(", ");
-                    validPlaceholders.append("?, ");
+            if (columnNames.length > 0) {
+                for (String column : columnNames) {
+                    if (!column.trim().isEmpty()) {
+                        validInsertSQL.append(column.trim()).append(", ");
+                        validPlaceholders.append("?, ");
+                    }
                 }
+            } else {
+                // If no custom columns, add filename column by default
+                validInsertSQL.append("filename, ");
+                validPlaceholders.append("?, ");
             }
 
             // Add path column (always present)
@@ -191,8 +200,9 @@ public class CreateDBFile {
 
                 // If splitter is empty, just use the original logic
                 if (splitterInput == null || splitterInput.isEmpty() || columnNames.length == 0) {
-                    // No splitting needed, just insert with path
-                    validStatement.setString(1, path);
+                    // No splitting needed, insert filename and path
+                    validStatement.setString(1, filename);
+                    validStatement.setString(2, path);
                     validStatement.addBatch();
                 } else {
                     // Split the filename
