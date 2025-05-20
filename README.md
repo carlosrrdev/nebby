@@ -29,12 +29,12 @@ Most recently opened SQL file is saved and automatically opened when the applica
 
 <div align="center">
 <h3>With custom splitter and table columns (recommended)</h3>
-<img src="clip1.gif" alt="custom columns" />
+<img src="outclip2.gif" alt="custom columns" />
 </div>
 
 <div align="center">
 <h3>Using default table columns</h3>
-<img src="clip2.gif" alt="default" />
+<img src="outclip1.gif" alt="default" />
 </div>
 
 ---
